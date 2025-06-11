@@ -167,6 +167,53 @@ The image includes optimized PostgreSQL configuration in `config/postgresql.conf
 - Optimized memory settings
 - Performance tuning parameters
 
+## CI/CD with GitHub Actions
+
+This repository includes automated Docker image building and publishing using GitHub Actions with Docker Build Cloud for faster multi-platform builds.
+
+### Automated Builds
+
+The GitHub Actions workflow automatically:
+- Builds multi-platform images (linux/amd64, linux/arm64) on pushes to main
+- Creates tagged releases when you push version tags (e.g., `v1.0.0`)
+- Validates builds on pull requests without publishing
+
+### Required Repository Configuration
+
+To enable automated builds, configure these repository secrets and variables:
+
+**Repository Variables** (Settings → Secrets and variables → Actions → Variables):
+- `DOCKER_USER`: Your Docker Hub username or organization name
+- `DOCKER_ORG`: Your Docker organization name for Build Cloud
+
+**Repository Secrets** (Settings → Secrets and variables → Actions → Secrets):
+- `DOCKER_PAT`: Docker Hub Personal Access Token with read/write permissions
+
+### Setup Instructions
+
+1. **Create Docker Hub Personal Access Token:**
+   - Go to Docker Hub → Account Settings → Security → New Access Token
+   - Name it "GitHub Actions Build Cloud"
+   - Set permissions to Read & Write
+   - Copy the generated token
+
+2. **Configure GitHub Repository:**
+   - Navigate to your repository → Settings → Secrets and variables → Actions
+   - Add the variables and secrets listed above
+
+3. **Ensure Docker Build Cloud Access:**
+   - Verify your Docker Hub account has Build Cloud enabled
+   - The workflow will use your organization's default Build Cloud endpoint
+
+### Publishing Images
+
+Images are published to Docker Hub with the following tags:
+- `latest`: Latest build from main branch
+- `<branch-name>`: Builds from specific branches
+- `<version>`: Semantic version tags (e.g., `1.0.0`, `1.0`)
+
+Example published image: `docker.io/<your-username>/sportsight-postgres:latest`
+
 ## License
 
 This image includes:

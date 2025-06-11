@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    build: ..
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      # Custom environment variables for your scripts
+      APP_DB_NAME: myapp
+      APP_DB_USER: myapp
+      APP_DB_PASSWORD: myapp_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./custom-scripts:/docker-entrypoint-initdb.d/custom-init.d
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:

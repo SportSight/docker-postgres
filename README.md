@@ -1,6 +1,17 @@
-# Generic PostgreSQL Docker Image
+# PostgreSQL + pgvector + pg_cron
+
+[![Docker Hub](https://img.shields.io/docker/pulls/sportsight/postgres.svg)](https://hub.docker.com/r/sportsight/postgres)
+[![Docker Image Version](https://img.shields.io/docker/v/sportsight/postgres.svg?sort=semver)](https://hub.docker.com/r/sportsight/postgres/tags)
 
 A production-ready PostgreSQL Docker image with pgvector and pg_cron extensions, designed for reusability across multiple projects.
+
+## Docker Hub
+
+This image is publicly available on Docker Hub: [`sportsight/postgres`](https://hub.docker.com/r/sportsight/postgres)
+
+```bash
+docker pull sportsight/postgres:latest
+```
 
 ## Features
 
@@ -15,13 +26,12 @@ A production-ready PostgreSQL Docker image with pgvector and pg_cron extensions,
 ### Basic Usage
 
 ```bash
-docker build -t my-postgres .
 docker run -d \
   -e POSTGRES_DB=myapp \
   -e POSTGRES_USER=myuser \
   -e POSTGRES_PASSWORD=mypassword \
   -p 5432:5432 \
-  my-postgres
+  sportsight/postgres:latest
 ```
 
 ### With Custom Initialization Scripts
@@ -35,7 +45,7 @@ docker run -d \
   -e POSTGRES_PASSWORD=mypassword \
   -v ./custom-scripts:/docker-entrypoint-initdb.d/custom-init.d \
   -p 5432:5432 \
-  my-postgres
+  sportsight/postgres:latest
 ```
 
 ### Custom Scripts Directory Structure
@@ -108,7 +118,7 @@ fi
 version: '3.8'
 services:
   postgres:
-    build: .
+    image: sportsight/postgres:latest
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -212,7 +222,7 @@ Images are published to Docker Hub with the following tags:
 - `<branch-name>`: Builds from specific branches
 - `<version>`: Semantic version tags (e.g., `1.0.0`, `1.0`)
 
-Example published image: `docker.io/<your-username>/sportsight-postgres:latest`
+Published image: [`docker.io/sportsight/postgres`](https://hub.docker.com/r/sportsight/postgres)
 
 ## License
 
